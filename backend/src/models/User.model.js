@@ -6,13 +6,14 @@ import crypto from "crypto";
 const userSchema = new Schema(
   {
     avatar: {
-      type: {
-        url: String,
-        localpath: String,
+      url: {
+        type: String,
+        trim: true,
+        default: "https://avatar.iran.liara.run/public/boy",
       },
-      trim: true,
-      default: {
-        url: ``,
+      localpath: {
+        type: String,
+        trim: true,
       },
     },
     username: {
@@ -111,6 +112,16 @@ userSchema.methods.generateEmailVerificationToken = function () {
   this.emailVerificationExpiry = tokenExpiry;
   return unhashedToken;
 };
-const User = mongoose.model("User", userSchema);
 
-export default User;
+userSchema.methods.generateForgotPasswordToken = function () {
+  const unhashedToken = crypto.randomBytes(20).toString("hex");
+  const hashedToken = crypto
+    .createHash("sha256")
+    .update(unhashedToken)
+    .digest("hex");
+  const tokenExpiry = Date.now() + 20 * 60 * 1000;
+  this.forgotPasswordToken = hashedToken;
+  this.forgotPasswordExpiry = tokenExpiry;
+  return unhashedToken;
+}
+export const User = mongoose.model("User", userSchema);

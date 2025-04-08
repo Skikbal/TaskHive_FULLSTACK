@@ -2,14 +2,15 @@ import { validationResult } from "express-validator";
 import { ApiError } from "../utils/api-error.js";
 const validate = async (req, res, next) => {
   const errors = validationResult(req);
-  console.log(errors);
+
   if (errors.isEmpty()) {
     return next();
   }
 
+  const result = errors.array();
   const extractedErrors = [];
 
-  errors.array.map((err) =>
+  result.map((err) =>
     extractedErrors.push({
       [err.path]: err.msg,
     }),
