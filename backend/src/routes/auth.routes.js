@@ -16,7 +16,7 @@ import { upload } from "../middlewares/multer.middleware.js";
 import {
   userLoginValidator,
   userRegistrationValidator,
-} from "../validators/index.js";
+} from "../validators/auth.validator.js";
 import isAuth from "../middlewares/isAuth.middleware.js";
 
 const router = Router();
@@ -41,6 +41,6 @@ router.route("/reset-password").post(resetForgottenPasswordHandler);
 //protected routes
 router.route("/logout").post(isAuth, logoutUserHandler);
 router.route("/change-password").post(isAuth, changeCurrentPasswordHandler);
-router.route("/user").get(isAuth,getCurrentUserHandler);
+router.route("/user").get(isAuth, getCurrentUserHandler);
 
 export default router;

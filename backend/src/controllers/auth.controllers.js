@@ -118,9 +118,6 @@ const loginUserHandler = asyncHandler(async (req, res) => {
 
 //user logout handler
 const logoutUserHandler = asyncHandler(async (req, res) => {
-  //user find karo req.user se jo is auth middleware se mil raha hai
-  //user ko find karo and update karo refresh token ""
-  //response bhejdo cookie blank set karke
   const id = req.user._id;
   await User.findById(id).updateOne({ refreshToken: "" });
   return res
@@ -237,6 +234,9 @@ const refreshAccessTokenHandler = asyncHandler(async (req, res) => {
 //forgot password request handler
 const forgotPasswordRequestHandler = asyncHandler(async (req, res) => {
   const { email } = req.body;
+  if (!email) {
+    throw new ApiError(400, "Email is required");
+  }
   const user = await User.findOne({ email });
   if (!user) {
     throw new ApiError(404, "User not found");
@@ -276,7 +276,7 @@ const resetForgottenPasswordHandler = asyncHandler(async (req, res) => {
   });
 
   if (!user) {
-    throw new ApiError(404, "User not found");
+    throw new ApiError(404, "password exired or invalid token");
   }
   user.password = password;
   user.forgotPasswordToken = undefined;

@@ -1,17 +1,11 @@
 import app from "./app.js";
-import dotenv from "dotenv";
 import connectDB from "./db/db.js";
 import logger from "./utils/logger.js";
-
-dotenv.config({
-  path: "./.env",
-});
-
-const PORT = process.env.PORT || 8000;
+import { PORT } from "./config/envConfig.js";
 
 connectDB()
   .then(() => {
-    app.listen(PORT,() => {
+    app.listen(PORT, () => {
       logger.info(`Server listining on port: ${PORT}`);
     });
   })

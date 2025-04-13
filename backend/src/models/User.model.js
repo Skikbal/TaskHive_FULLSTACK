@@ -2,6 +2,12 @@ import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
+import {
+  ACCESS_TOKEN_EXPIRY,
+  ACCESS_TOKEN_SECRET,
+  REFRESH_TOKEN_EXPIRY,
+  REFRESH_TOKEN_SECRET,
+} from "../config/envConfig.js";
 
 const userSchema = new Schema(
   {
@@ -81,9 +87,9 @@ userSchema.methods.generateAccesToken = function () {
       email: this.email,
       username: this.username,
     },
-    process.env.ACCESS_TOKEN_SECRET,
+    ACCESS_TOKEN_SECRET,
     {
-      expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
+      expiresIn: ACCESS_TOKEN_EXPIRY,
     },
   );
 };
@@ -94,9 +100,9 @@ userSchema.methods.generateRefreshToken = function () {
       email: this.email,
       username: this.username,
     },
-    process.env.REFRESH_TOKEN_SECRET,
+    REFRESH_TOKEN_SECRET,
     {
-      expiresIn: process.env.REFRESH_TOKEN_EXPIRY,
+      expiresIn: REFRESH_TOKEN_EXPIRY,
     },
   );
 };
@@ -123,5 +129,5 @@ userSchema.methods.generateForgotPasswordToken = function () {
   this.forgotPasswordToken = hashedToken;
   this.forgotPasswordExpiry = tokenExpiry;
   return unhashedToken;
-}
+};
 export const User = mongoose.model("User", userSchema);

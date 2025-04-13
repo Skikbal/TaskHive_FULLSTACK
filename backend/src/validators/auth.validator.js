@@ -1,5 +1,6 @@
 import { body } from "express-validator";
 
+
 const userRegistrationValidator = () => {
   return [
     body("email")

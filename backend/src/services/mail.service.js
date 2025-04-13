@@ -1,5 +1,11 @@
 import nodemailer from "nodemailer";
 import Mailgen from "mailgen";
+import {
+  MAILTRAP_HOST,
+  MAILTRAP_PORT,
+  MAILTRAP_USERNAME,
+  MAILTRAP_PASSWORD,
+} from "../config/envConfig.js";
 
 const sendEmail = async (options) => {
   const mailGenerator = new Mailgen({
@@ -19,11 +25,11 @@ const sendEmail = async (options) => {
 
   //transporter
   const transporter = nodemailer.createTransport({
-    host: process.env.MAILTRAP_HOST,
-    port: process.env.MAILTRAP_PORT,
+    host: MAILTRAP_HOST,
+    port: MAILTRAP_PORT,
     auth: {
-      user: process.env.MAILTRAP_USERNAME,
-      pass: process.env.MAILTRAP_PASSWORD,
+      user: MAILTRAP_USERNAME,
+      pass: MAILTRAP_PASSWORD,
     },
   });
 
@@ -60,7 +66,7 @@ const emailVerificationMailgenContent = (username, verificationURL) => {
     },
   };
 };
-const forgotPasswordMailgenContent = (username, verificationURL) => {
+const forgotPasswordMailgenContent = (username, restPasswordURL) => {
   return {
     body: {
       name: username,
