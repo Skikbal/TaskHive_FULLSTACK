@@ -4,16 +4,19 @@ import { ApiResponse } from "../utils/api-response.js";
 import { ApiError } from "../utils/api-error.js";
 import ProjectMember from "../models/Projectmember.model.js";
 import { User } from "../models/User.model.js";
+import Task from "../models/Task.model.js";
+import SubTask from "../models/Subtask.model.js";
+import { availableUserRoles, UserRolesEnum } from "../constants/constant.js";
+import mongoose from "mongoose";
+import withTransactionService from "../services/transaction.service.js";
 
+//get all projects
 const getProjectsHandler = asyncHandler(async (req, res) => {
   const { _id } = req.user;
-  const projects = await Project.aggregate([
-    {
-      $match: {
-        createdBy: _id,
-      },
-    },
-  ]);
+
+  const projects = await Project.find({
+    createdBy: _id,
+  });
 
   if (!projects) {
     throw new ApiError(404, "Projects not found");
@@ -23,13 +26,47 @@ const getProjectsHandler = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, "Projects fetched successfully", projects));
 });
 
+//get projects by id
 const getProjectByIdHandler = asyncHandler(async (req, res) => {
   const { projectId } = req.params;
 
-  const project = await Project.findById({
-    _id: projectId,
-  });
-  if (!project) {
+  const project = await Project.aggregate([
+    {
+      $match: { _id: new mongoose.Types.ObjectId(projectId) },
+    },
+    {
+      $lookup: {
+        from: "projectmembers",
+        localField: "_id",
+        foreignField: "project",
+        as: "members",
+      },
+    },
+    {
+      $lookup: {
+        from: "users",
+        localField: "createdBy",
+        foreignField: "_id",
+        as: "createdBy",
+      },
+    },
+    {
+      $unwind: "$createdBy",
+    },
+    {
+      $project: {
+        "createdBy.password": 0,
+        "createdBy.refreshToken": 0,
+      },
+    },
+    {
+      // $group: {
+      //   _id: "$isCompleted",
+      // },
+    },
+  ]);
+
+  if (project.length === 0) {
     throw new ApiError(404, "Project not found");
   }
 
@@ -41,17 +78,46 @@ const getProjectByIdHandler = asyncHandler(async (req, res) => {
 //create project handler
 const createProjectHandler = asyncHandler(async (req, res) => {
   const { name, description } = req.body;
-  const _id = req.user._id;
 
-  const project = await Project.create({
+  const _id = req.user?._id;
+
+  //check if project already exists
+  const existingProject = await Project.findOne({
     name,
-    description,
     createdBy: _id,
   });
 
-  if (!project) {
-    throw new ApiError(400, "Project creation failed");
+  if (existingProject) {
+    throw new ApiError(400, "Project already exists");
   }
+
+  const project = await withTransactionService(async (session) => {
+    const [newProject] = await Project.create(
+      [
+        {
+          name,
+          description,
+          createdBy: _id,
+        },
+      ],
+      {
+        session,
+      },
+    );
+    await ProjectMember.create(
+      [
+        {
+          project: newProject._id,
+          user: _id,
+          role: UserRolesEnum.PROJECT_ADMIN,
+        },
+      ],
+      {
+        session,
+      },
+    );
+    return newProject;
+  });
 
   return res
     .status(201)
@@ -60,10 +126,20 @@ const createProjectHandler = asyncHandler(async (req, res) => {
 
 //update project handler
 const updateProjectHandler = asyncHandler(async (req, res) => {
+  const userId = req.user._id;
   const { projectId } = req.params;
   const { name, description } = req.body;
 
-  const updatedProject = await Project.findByIdAndUpdate(
+  const projectmeber = await ProjectMember.validateRoleForProjectUpdate(
+    projectId,
+    userId,
+  );
+
+  if (!projectmeber) {
+    throw new ApiError(403, "You are not authorized to update this project");
+  }
+
+  const updatedProject = await Project.findOneAndUpdate(
     {
       _id: projectId,
     },
@@ -77,7 +153,7 @@ const updateProjectHandler = asyncHandler(async (req, res) => {
   );
 
   if (!updatedProject) {
-    throw new ApiError(404, "Project not found");
+    throw new ApiError(404, "Project not found or failed to update");
   }
 
   return res
@@ -85,14 +161,40 @@ const updateProjectHandler = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, "Project updated", updatedProject));
 });
 
+//delete project handler
 const deleteProjectHandler = asyncHandler(async (req, res) => {
+  const userId = req.user._id;
   const { projectId } = req.params;
 
-  const deletedProject = await Project.findByIdAndDelete(projectId);
+  const projectmeber = await ProjectMember.validateRoleForProjectUpdate(
+    projectId,
+    userId,
+  );
 
-  if (!deletedProject) {
+  if (!projectmeber) {
+    throw new ApiError(403, "You are not authorized to update this project");
+  }
+
+  //find project
+  const project = await Project.findById(projectId);
+
+  if (!project) {
     throw new ApiError(404, "Project not found");
   }
+
+  //get all the task ids
+  const taskIds = await Task.find({ project: projectId }).select("_id");
+
+  const deletedProject = await withTransactionService(async (session) => {
+    await SubTask.deleteMany({ task: { $in: taskIds } }).session(session);
+    await Task.deleteMany({ _id: { $in: taskIds } }).session(session);
+    await ProjectMember.deleteMany({ project: projectId }).session(session);
+    const deleteProject = await Project.findByIdAndDelete(projectId)
+      .select(projectId)
+      .session(session);
+
+    return deleteProject;
+  });
 
   return res
     .status(200)
@@ -124,13 +226,23 @@ const addMemberToProjectHandler = asyncHandler(async (req, res) => {
   const { projectId, memberId } = req.params;
   const userId = req.user._id;
 
+  const existingMemberInProject = await ProjectMember.findOne({
+    project: projectId,
+    user: memberId,
+  });
+
+  if (existingMemberInProject) {
+    throw new ApiError(400, "Member already exists in this project");
+  }
+
   //check if user is admin or project admin
-  const user = await User.findById(userId).select("role");
-  if (user.role !== "admin" || user.role !== "project_admin") {
-    throw new ApiError(
-      403,
-      "You are not authorized to add members to this project",
-    );
+  const projectmeber = await ProjectMember.validateRoleForProjectUpdate(
+    projectId,
+    userId,
+  );
+
+  if (!projectmeber) {
+    throw new ApiError(403, "You are not authorized to update this project");
   }
 
   const newProjectMember = await ProjectMember.create({
@@ -155,18 +267,32 @@ const addMemberToProjectHandler = asyncHandler(async (req, res) => {
 
 //delete project member handler
 const deleteMemberHandler = asyncHandler(async (req, res) => {
-  const { memberId } = req.params;
+  const { projectId, memberId } = req.params;
   const userId = req.user._id;
+
   //check if user is admin or project admin
-  const user = await User.findById(userId).select("role");
-  if (user.role !== "admin" || user.role !== "project_admin") {
-    throw new ApiError(
-      403,
-      "You are not authorized to delete members from this project",
-    );
+  const projectmeber = await ProjectMember.validateRoleForProjectUpdate(
+    projectId,
+    userId,
+  );
+
+  if (!projectmeber) {
+    throw new ApiError(403, "You are not authorized to update this project");
   }
 
+  const session = await mongoose.startSession();
+  session.startTransaction();
+
+  const taskIds = await Task.find({ assignedTo: memberId }).select("_id");
+
+  await SubTask.deleteMany({ task: { $in: taskIds } });
+  await Task.deleteMany({ _id: { $in: taskIds } });
+
   const deletedMember = await ProjectMember.findByIdAndDelete(memberId);
+  console.log(deletedMember);
+  //commit transaction
+  session.commitTransaction();
+  session.endSession();
 
   if (!deletedMember) {
     throw new ApiError(404, "Member not found");
