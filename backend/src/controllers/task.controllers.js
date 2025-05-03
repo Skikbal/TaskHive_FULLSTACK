@@ -129,7 +129,8 @@ const deleteTaskHandler = asyncHandler(async (req, res) => {
 // create subtask
 const createSubTaskHandler = async (req, res) => {
   const userId = req.user._id;
-  const { taskId, title } = req.body;
+  const taskId = req.params.taskId;
+  const { title } = req.body;
 
   const newSubTask = await SubTask.create({
     title,
