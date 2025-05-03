@@ -34,12 +34,13 @@ const registerUserHandler = asyncHandler(async (req, res) => {
   }
 
   //get the avatar local path url
-  const avatarLocalPath = req.files?.avatar[0]?.path;
-  if (avatarLocalPath) {
-    const avatar = await uploadFilesToCloudinary(avatarLocalPath);
+  const avatar = req.files?.avatar[0]
+  if (avatar) {
+    const avatarURL = await uploadFilesToCloudinary(avatar);
     newUser.avatar = {
       url: avatar?.url ?? "",
-      localpath: avatarLocalPath ?? "",
+      mimeType: avatar?.mimetype ?? "",
+      size: avatar?.size ?? 0,
     };
   }
 
