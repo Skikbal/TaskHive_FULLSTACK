@@ -3,12 +3,13 @@ import healthCheckRouter from "./routes/healthcheck.routes.js";
 import authRouter from "./routes/auth.routes.js";
 import projectRouter from "./routes/project.routes.js";
 import taskRouter from "./routes/task.routes.js";
+import errorHandler from "./middlewares/error.middleware.js";
 
 import path from "path";
 import { fileURLToPath } from "url";
 import cookieParser from "cookie-parser";
 
-const app = express();
+const app = express();  
 
 // Needed to get __dirname in ES Module
 const __filename = fileURLToPath(import.meta.url);
@@ -25,5 +26,8 @@ app.use("/api/v1/healthcheck", healthCheckRouter);
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/project", projectRouter);
 app.use("/api/v1/task", taskRouter);
+
+// GLOBAL ERROR HANDLER
+app.use(errorHandler);
 
 export default app;

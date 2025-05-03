@@ -39,8 +39,8 @@ router.route("/:taskId").get(isAuth, getTaskByIdHandler);
 
 //subtask routes
 router
-  .route("/sub-task/new")
-  .post(isAuth, subTaskValidator(), validate, createSubTaskHandler);
+  .route("/:taskId/new-sub-task")
+  .post(isAuth,createSubTaskHandler);
 router.route("/sub-task/update/:subTaskId").put(isAuth, updateSubTaskHandler);
 router
   .route("/sub-task/delete/:subTaskId")

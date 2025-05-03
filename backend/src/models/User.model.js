@@ -8,6 +8,7 @@ import {
   REFRESH_TOKEN_EXPIRY,
   REFRESH_TOKEN_SECRET,
 } from "../config/envConfig.js";
+import { type } from "os";
 
 const userSchema = new Schema(
   {
@@ -17,9 +18,13 @@ const userSchema = new Schema(
         trim: true,
         default: "https://avatar.iran.liara.run/public/boy",
       },
-      localpath: {
+      mimeType: {
         type: String,
-        trim: true,
+        default: null,
+      },
+      size: {
+        type: Number,
+        default: null,
       },
     },
     username: {

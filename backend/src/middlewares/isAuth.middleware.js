@@ -14,12 +14,12 @@ const isAuth = async (req, res, next) => {
     );
 
     if (!user) {
-      throw new ApiError(404, "User not found.Unauthorized");
+      return next(new ApiError(404, "User not found.Unauthorized"));
     }
     req.user = user;
     next();
   } catch (error) {
-    return next(new ApiError(401, "Invalid or expired access token."));
+    next(new ApiError(401, "Invalid or expired access token."))
   }
 };
 

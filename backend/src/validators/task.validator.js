@@ -28,10 +28,6 @@ const subTaskValidator = () => {
       .withMessage("Title is Required !")
       .isLength({ min: 3 })
       .withMessage("Title must be at least 3 characters long !"),
-    body("taskId")
-    .trim()
-    .notEmpty()
-    .withMessage("Task is Required !"),
   ];
 };
 

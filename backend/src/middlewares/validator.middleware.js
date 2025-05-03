@@ -15,7 +15,7 @@ const validate = async (req, res, next) => {
       [err.path]: err.msg,
     }),
   );
-  throw new ApiError(422, "Validation Error !", extractedErrors);
+  next(new ApiError(422, "Validation Error !", extractedErrors));
 };
 
 export default validate;

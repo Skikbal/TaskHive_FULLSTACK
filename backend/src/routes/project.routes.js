@@ -27,15 +27,15 @@ router
   .post(isAuth, projectValidator(), validate, createProjectHandler);
 router
   .route("/update-project/:projectId")
-  .put(isAuth, projectValidator(), validate, updateProjectHandler);
+  .put(isAuth, updateProjectHandler);
 router.route("/delete-project/:projectId").delete(isAuth, deleteProjectHandler);
 
 //project members routes
-router.route("/project-members/:projectId").get(isAuth,getProjectMembersHandler);
+router.route("/:projectId/project-members").get(isAuth,getProjectMembersHandler);
 router
-  .route("/add-member/:projectId/:userId")
+  .route("/:projectId/add-member/:memberId")
   .post(isAuth, addMemberToProjectHandler);
-router.route("/delete-member/:memberId").delete(isAuth, deleteMemberHandler);
+router.route("/:projectId/delete-member/:memberId").delete(isAuth, deleteMemberHandler);
 router
   .route("/project-members/:memberId")
   .put(isAuth, projectMemberRoleValidator(), validate, updateMemberRoleHandler);

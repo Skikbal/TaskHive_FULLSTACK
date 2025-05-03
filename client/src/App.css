@@ -1,0 +1,732 @@
+.App {
+    font-family: "DM Sans";
+  }
+  
+  .App-logo {
+    height: 40vmin;
+    pointer-events: none;
+  }
+  
+  @media (prefers-reduced-motion: no-preference) {
+    .App-logo {
+      animation: App-logo-spin infinite 20s linear;
+    }
+  }
+  
+  .App-header {
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+  }
+  
+  .App-link {
+    color: #61dafb;
+  }
+  
+  .page-not-found {
+    background-color: #f2f4f9;
+    padding-top: 20vh;
+    text-align: center;
+    height: 100vh;
+  }
+  
+  .page-not-found h1 {
+    font-size: 64px;
+  }
+  
+  .head-1 {
+    font-family: DM Sans;
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 46.87px;
+  }
+  
+  .head-2 {
+    font-family: DM Sans;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 31.25px;
+  }
+  
+  .head-3 {
+    font-family: DM Sans;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 26.04px;
+  }
+  
+  .head-4 {
+    font-family: DM Sans;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 23.44px;
+  }
+  
+  .head-5 {
+    font-family: DM Sans;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 20.83px;
+  }
+  
+  .head-6 {
+    font-family: DM Sans;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 18.23px;
+  }
+  
+  .body-L {
+    font-family: DM Sans;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 27px;
+  }
+  
+  .body-N {
+    font-family: DM Sans;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+  }
+  
+  .body-S {
+    font-family: DM Sans;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 21px;
+  }
+  .body-ES {
+    font-family: DM Sans;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 18px;
+  }
+  
+  .body-XS {
+    font-family: DM Sans;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 18px;
+  }
+  
+  .number-Text {
+    font-family: DM Sans;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 39.06px;
+  }
+  
+  .dark-H {
+    color: #262a2e;
+  }
+  
+  .dark-M {
+    color: #6f6f6f;
+  }
+  
+  .dark-L {
+    color: #edf0eb;
+  }
+  
+  .light-H {
+    color: #f4f4f4;
+  }
+  
+  .light-L {
+    color: #ffffff;
+  }
+  
+  .green-H {
+    color: #2d5b30;
+  }
+  .green-b {
+    border-color: #39683c;
+  }
+  .green-M {
+    color: #37783a;
+  }
+  
+  .green-N {
+    color: #8ca486;
+  }
+  
+  .green-L {
+    color: #d1dbcf;
+  }
+  
+  .red-D {
+    color: #ff0000;
+  }
+  
+  .red-L {
+    color: #f5e3e3;
+  }
+  
+  .orange-D {
+    color: #ffb952;
+  }
+  
+  .orange-L {
+    color: #fff8e0;
+  }
+  
+  .orange-bg-L {
+    background-color: #fff8e0;
+  }
+  
+  .orange-bg-D {
+    background-color: #ffb952;
+  }
+  
+  .dark-bg-H {
+    background-color: #262a2e;
+  }
+  
+  .dark-bg-M {
+    background-color: #6f6f6f;
+  }
+  
+  .dark-bg-L {
+    background-color: #edf0eb;
+  }
+  
+  .light-bg-H {
+    background-color: #f4f4f4;
+  }
+  
+  .light-bg-L {
+    background-color: #ffffff;
+  }
+  
+  .green-bg-H {
+    background-color: #2d5b30;
+  }
+  
+  .green-bg-M {
+    background-color: #37783a;
+  }
+  
+  .green-bg-N {
+    background-color: #8ca486;
+  }
+  
+  .green-bg-L {
+    background-color: #d1dbcf;
+  }
+  
+  .red-bg-D {
+    background-color: #ff0000;
+  }
+  
+  .red-bg-L {
+    background-color: #f5e3e3;
+  }
+  
+  /* width */
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px #6f6f6f;
+    border-radius: 10px;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #6f6f6f;
+    border-radius: 10px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #6f6f6f;
+  }
+  
+  ::-webkit-scrollbar:hover {
+    width: 6px;
+    height: 6px;
+  }
+  
+  .select-dropdown .css-10wo9uf-option {
+    color: #6f6f6f !important;
+    font-family: DM Sans;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: left;
+  }
+  
+  .select-dropdown .css-10wo9uf-option:active {
+    background-color: #d1dbcf;
+  }
+  
+  /* input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+  } */
+  
+  .chakra-radio__label.css-14iyyou {
+    color: #6f6f6f;
+    margin-inline-start: 5px;
+  }
+  
+  .chakra-radio__control.css-vtg3j9 {
+    border-color: #2d5b30;
+    height: 20px;
+    width: 20px;
+  }
+  
+  .chakra-radio__control.css-vtg3j9[aria-checked="true"],
+  .chakra-radio__control.css-vtg3j9[data-checked] {
+    border-color: #2d5b30;
+    background: #ffffff;
+    color: #2d5b30;
+  }
+  
+  .chakra-radio__control.css-vtg3j9[aria-checked="true"]::before,
+  .chakra-radio__control.css-vtg3j9[data-checked]::before {
+    width: 60%;
+    height: 60%;
+  }
+  
+  .chakra-radio__control.css-vtg3j9[aria-checked="true"]:hover,
+  .chakra-radio__control.css-vtg3j9[data-checked]:hover {
+    border-color: #2d5b30;
+    background: #ffffff;
+    color: #2d5b30;
+  }
+  
+  /* React-select css */
+  .css-13cymwt-control {
+    background-color: #ffffff !important;
+    border-color: #f4f4f4 !important;
+    border-radius: 8px !important;
+    box-shadow: 0px 0px 20px 0px #007d880d !important;
+  }
+  
+  .css-t3ipsp-control {
+    border-color: #f4f4f4 !important;
+    box-shadow: 0px 0px 20px 0px #007d880d !important;
+  }
+  
+  .css-t3ipsp-control:hover {
+    border-color: #f4f4f4 !important;
+    box-shadow: 0px 0px 20px 0px #007d880d !important;
+  }
+  
+  .css-t3ipsp-control:active {
+    border-color: #f4f4f4 !important;
+    box-shadow: 0px 0px 20px 0px #007d880d !important;
+  }
+  
+  .css-1u9des2-indicatorSeparator {
+    display: none !important;
+  }
+  /* React-select css end*/
+  
+  @keyframes App-logo-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  .rotate {
+    animation: rotate 2s linear infinite; /* Adjust duration as needed */
+  }
+  
+  @media (min-width: 1401px) and (max-width: 1536px) {
+    .head-1 {
+      font-size: 25px;
+      line-height: 43.87px;
+    }
+  
+    .head-2 {
+      font-size: 21px;
+      line-height: 28.25px;
+    }
+  
+    .head-3 {
+      font-size: 19px;
+      line-height: 23.04px;
+    }
+  
+    .head-4 {
+      font-size: 16px;
+      line-height: 20.44px;
+    }
+  
+    .head-5 {
+      font-size: 15px;
+      line-height: 17.83px;
+    }
+  
+    .head-6 {
+      font-size: 13px;
+      line-height: 15.23px;
+    }
+    .head-7 {
+      font-size: 15px;
+      font-weight: 500;
+      line-height: 15.23px;
+    }
+    .body-L {
+      font-size: 17px;
+      line-height: 24px;
+    }
+  
+    .body-N {
+      font-size: 15px;
+      line-height: 21px;
+    }
+  
+    .body-S {
+      font-size: 13.5px;
+      line-height: 18px;
+    }
+  
+    .body-XS {
+      font-size: 11px;
+      line-height: 15px;
+    }
+  
+    .number-Text {
+      font-size: 25px;
+      line-height: 32px;
+    }
+  }
+  
+  @media (min-width: 1280px) and (max-width: 1400px) {
+    .head-1 {
+      font-size: 21px;
+      line-height: 38.87px;
+    }
+  
+    .head-2 {
+      font-size: 18px;
+      line-height: 24.25px;
+    }
+  
+    .head-3 {
+      font-size: 16px;
+      line-height: 20.04px;
+    }
+  
+    .head-4 {
+      font-size: 14px;
+      line-height: 21px;
+    }
+  
+    .head-5 {
+      font-size: 13px;
+      line-height: 14.83px;
+    }
+  
+    .head-6 {
+      font-size: 12px;
+      line-height: 13px;
+    }
+  
+    .head-7 {
+      font-size: 11px;
+      font-weight: 500;
+      line-height: 13px;
+    }
+  
+    .body-L {
+      font-size: 12px;
+      line-height: 21px;
+    }
+  
+    .body-N {
+      font-size: 13px;
+      line-height: 18px;
+    }
+  
+    .body-S {
+      font-size: 12px;
+      line-height: 15px;
+    }
+  
+    .body-XS {
+      font-size: 9px;
+      line-height: 13px;
+    }
+  
+    .number-Text {
+      font-size: 20px;
+      line-height: 30px;
+    }
+  }
+  
+  @media (min-width: 1024px) and (max-width: 1279px) {
+    .head-1 {
+      font-size: 21px;
+      line-height: 38.87px;
+    }
+  
+    .head-2 {
+      font-size: 18px;
+      line-height: 24.25px;
+    }
+  
+    .head-3 {
+      font-size: 16px;
+      line-height: 20.04px;
+    }
+  
+    .head-4 {
+      font-size: 15px;
+      line-height: 17.44px;
+    }
+  
+    .head-5 {
+      font-size: 13px;
+      line-height: 14.83px;
+    }
+  
+    .head-6 {
+      font-size: 12px;
+      line-height: 15.23px;
+    }
+  
+    .head-7 {
+      font-size: 11px;
+      font-weight: 500;
+      line-height: 13px;
+    }
+  
+    .body-L {
+      font-size: 14px;
+      line-height: 21px;
+    }
+  
+    .body-N {
+      font-size: 12px;
+      line-height: 18px;
+    }
+  
+    .body-S {
+      font-size: 11px;
+      line-height: 15px;
+    }
+  
+    .body-XS {
+      font-size: 10px;
+      line-height: 15px;
+    }
+  
+    .number-Text {
+      font-size: 22px;
+      line-height: 30.06px;
+    }
+  }
+  
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .head-1 {
+      font-size: 20px;
+      line-height: 35.87px;
+    }
+  
+    .head-2 {
+      font-size: 18px;
+      line-height: 24.25px;
+    }
+  
+    .head-3 {
+      font-size: 16px;
+      line-height: 20.04px;
+    }
+  
+    .head-4 {
+      font-size: 13px;
+      line-height: 17.44px;
+    }
+  
+    .head-5 {
+      font-size: 12px;
+      line-height: 14.83px;
+    }
+  
+    .head-6 {
+      font-size: 10px;
+      line-height: 11.23px;
+    }
+  
+    .head-7 {
+      font-size: 9px;
+      font-weight: 500;
+      line-height: 10px;
+    }
+  
+    .body-L {
+      font-size: 13px;
+      line-height: 21px;
+    }
+  
+    .body-N {
+      font-size: 11px;
+      line-height: 19px;
+    }
+  
+    .body-S {
+      font-size: 10px;
+      line-height: 15px;
+    }
+  
+    .body-XS {
+      font-size: 8px;
+      line-height: 12px;
+    }
+  
+    .number-Text {
+      font-size: 21px;
+      line-height: 30.06px;
+    }
+  }
+  
+  @media (min-width: 640px) and (max-width: 767px) {
+    .head-1 {
+      font-size: 25px;
+      line-height: 37.87px;
+    }
+  
+    .head-2 {
+      font-size: 20px;
+      line-height: 22.25px;
+    }
+  
+    .head-3 {
+      font-size: 16px;
+      line-height: 17.04px;
+    }
+  
+    .head-4 {
+      font-size: 14px;
+      line-height: 14.44px;
+    }
+  
+    .head-5 {
+      font-size: 12px;
+      line-height: 11.83px;
+    }
+  
+    .head-6 {
+      font-size: 10px;
+      line-height: 9.23px;
+    }
+  
+    .body-L {
+      font-size: 12px;
+      line-height: 19px;
+    }
+  
+    .body-N {
+      font-size: 12px;
+      line-height: 17px;
+    }
+  
+    .body-S {
+      font-size: 10px;
+      line-height: 15px;
+    }
+  
+    .body-XS {
+      font-size: 8px;
+      line-height: 10px;
+    }
+  
+    .number-Text {
+      font-size: 25px;
+      line-height: 30.06px;
+    }
+  }
+  
+  @media (min-width: 320px) and (max-width: 659px) {
+    .head-1 {
+      font-size: 25px;
+      line-height: 37.87px;
+    }
+  
+    .head-2 {
+      font-size: 20px;
+      line-height: 22.25px;
+    }
+  
+    .head-3 {
+      font-size: 16px;
+      line-height: 17.04px;
+    }
+  
+    .head-4 {
+      font-size: 14px;
+      line-height: 14.44px;
+    }
+  
+    .head-5 {
+      font-size: 12px;
+      line-height: 11.83px;
+    }
+  
+    .head-6 {
+      font-size: 10px;
+      line-height: 9.23px;
+    }
+  
+    .body-L {
+      font-size: 12px;
+      line-height: 19px;
+    }
+  
+    .body-N {
+      font-size: 12px;
+      line-height: 17px;
+    }
+  
+    .body-S {
+      font-size: 10px;
+      line-height: 15px;
+    }
+  
+    .body-XS {
+      font-size: 8px;
+      line-height: 10px;
+    }
+  
+    .number-Text {
+      font-size: 25px;
+      line-height: 30.06px;
+    }
+  }
+  
+  .linkContacts-modal {
+    height: 100px;
+    width: 400px;
+  }
